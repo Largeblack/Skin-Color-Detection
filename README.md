@@ -7,7 +7,7 @@ A simple Matlab implementation of paper: S.L. Phung, A. Bouzerdoum
 lfw images: http://vis-www.cs.umass.edu/lfw/lfw-funneled.tgz <br>
 labeled parts: http://vis-www.cs.umass.edu/lfw/part_labels/parts_lfw_funneled_gt_images.tgz
 2.train_ser:<br>
-Remove the background and non-skin part(skin_dist.png)
+Remove the background and non-skin part(train_set.7z)
 
 # Execution
 ## Training
