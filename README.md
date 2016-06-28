@@ -5,7 +5,7 @@ A simple Matlab implementation of paper: S.L. Phung, A. Bouzerdoum
 # Required:
 1. Dataset: <br>
 lfw images: http://vis-www.cs.umass.edu/lfw/lfw-funneled.tgz <br>
-※Trainset need to remove the background and non-skin area
+※Trainset need to remove the background and non-skin area <br>
 labeled parts: http://vis-www.cs.umass.edu/lfw/part_labels/parts_lfw_funneled_gt_images.tgz
 
 # Execution
