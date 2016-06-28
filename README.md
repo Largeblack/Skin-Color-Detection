@@ -23,6 +23,12 @@ The first group Y1 center
 <br>
 (Y1_Center.png)
 <br>
+The second group Y2 center
+![Skin distribution in YCbCr](Y2_Center.PNG)
+<br>
+The thirf group Y3 center
+![Skin distribution in YCbCr](Y3_Center.PNG)
+<br>
 modify the file path if necessary, this example only takes one image for testing
 ## Testing
 ```
