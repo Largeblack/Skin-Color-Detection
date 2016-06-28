@@ -16,7 +16,7 @@ Run skin_training.m
 ```
 Output the skin distribution in YCbCr
 <br>
-![Skin distribution in YCbCr](Skin_model.jpg)
+![Skin distribution in YCbCr](Skin_model.png)
 <br>
 The first group Y1 center
 ![Skin distribution in YCbCr](Y1_Center.jpg)
@@ -25,7 +25,7 @@ The second group Y2 center
 ![Skin distribution in YCbCr](Y2_Center.jpg)
 <br>
 The thirf group Y3 center
-![Skin distribution in YCbCr](Y3_Center.png)
+![Skin distribution in YCbCr](Y3_Center.jpg)
 <br>
 modify the file path if necessary, this example only takes one image for testing
 ## Testing
