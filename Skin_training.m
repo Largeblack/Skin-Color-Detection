@@ -29,20 +29,20 @@ count1=1;
        end   
     end;
 end;
-skin_sum=[skinarray1;skinarray2];%±N½§¦â¦s¶iskin_sumªº°}¦C
-train_img =rgb2ycbcr(skin_sum);%½§¦â°}¦CÂàYCBCR
+skin_sum=[skinarray1;skinarray2];%å°‡è†šè‰²å­˜é€²skin_sumçš„é™£åˆ—
+train_img =rgb2ycbcr(skin_sum);%è†šè‰²é™£åˆ—è½‰YCBCR
 Y_range=(max(train_img(:,1))-min(train_img(:,1)))/3;
 
 k=3;
-train_img_max=max(train_img(:,1));%ºâ¥XY¸sªº³Ì¤j­È
-train_img_min=min(train_img(:,1));%ºâ¥XY¸sªº³Ì¤p­È
-train_img_average=(max(train_img(:,1))-min(train_img(:,1)))/k;%ºâ¥XY¸sªº¥­§¡
+train_img_max=max(train_img(:,1));%ç®—å‡ºYç¾¤çš„æœ€å¤§å€¼
+train_img_min=min(train_img(:,1));%ç®—å‡ºYç¾¤çš„æœ€å°å€¼
+train_img_average=(max(train_img(:,1))-min(train_img(:,1)))/k;%ç®—å‡ºYç¾¤çš„å¹³å‡
 
 clear range;
 for i=1:1:k+1
-   range(i,1)= train_img_min+(i-1)*train_img_average;%ºâ¥X¤À¤T°Ïªº½d³ò
+   range(i,1)= train_img_min+(i-1)*train_img_average;%ç®—å‡ºåˆ†ä¸‰å€çš„ç¯„åœ
 end
-%test=train_img_min+(4-1)*train_img_average
+test=train_img_min+(2-1)*train_img_average
 % range =
 % [0.0627
 % 59.8019
@@ -52,40 +52,46 @@ end
 
 clear Y1_idx Y1 Y2_idx Y2 Y3_idx Y3 Cen;
 i=1;
-Y1_idx = train_img(:, 1) >= range(i) & train_img(:, 1) < range(i+1);%¦³¤À¶iªº¸Ü¬O1¨S¤À¶i¬O0
-Y1 = train_img(Y1_idx, :);%¤À¤T°Ï¶ô¤¤ªº²Ä¤@°Ï¶ô
+Y1_idx = train_img(:, 1) >= range(i) & train_img(:, 1) < range(i+1);%æœ‰åˆ†é€²çš„è©±æ˜¯1æ²’åˆ†é€²æ˜¯0
+Y1 = train_img(Y1_idx, :);%åˆ†ä¸‰å€å¡Šä¸­çš„ç¬¬ä¸€å€å¡Š
 i=2;
 Y2_idx = train_img(:, 1) >= range(i) & train_img(:, 1) < range(i+1);
-Y2 = train_img(Y2_idx, :);%¤À¤T°Ï¶ô¤¤ªº²Ä¤G°Ï¶ô
+Y2 = train_img(Y2_idx, :);%åˆ†ä¸‰å€å¡Šä¸­çš„ç¬¬äºŒå€å¡Š
 i=3;
 Y3_idx = train_img(:, 1) >= range(i) & train_img(:, 1) <= range(i+1);
-Y3 = train_img(Y3_idx, :);%¤À¤T°Ï¶ô¤¤ªº²Ä¤T°Ï¶ô
-iter(Y1_idx) = i;
-iter(Y2_idx) = i;
-iter(Y3_idx) = i;
-
+Y3 = train_img(Y3_idx, :);%åˆ†ä¸‰å€å¡Šä¸­çš„ç¬¬ä¸‰å€å¡Š
+% iter(Y1_idx) = i;
+% iter(Y2_idx) = i;
+% iter(Y3_idx) = i;
+figure
+scatter3(Y1(:,3),Y1(:,2),Y1(:,1),'y.');hold on;
+%scatter3(Cen(1,3),Cen(1,2),Cen(1,1),'bo');hold on;
+scatter3(Y2(:,3),Y2(:,2),Y2(:,1),'g.');hold on;
+%scatter3(Cen(2,3),Cen(2,2),Cen(2,1),'bo');hold on;
+scatter3(Y3(:,3),Y3(:,2),Y3(:,1),'r.');hold on;
+%scatter3(Cen(3,3),Cen(3,2),Cen(3,1),'bo');hold on;
 for count=1:15
-%ºâ¤¤¤ßÂI
+%ç®—ä¸­å¿ƒé»ž
 i=1;
 Cen(i,1) = sum(Y1(:,1))/size(Y1,1);
 Cen(i,2) = sum(Y1(:,2))/size(Y1,1);
 Cen(i,3) = sum(Y1(:,3))/size(Y1,1);
 
 
-%ºâ½è¤¤¤ß¶ZÂ÷²Ä¤T¤½¦¡
+%ç®—è³ªä¸­å¿ƒè·é›¢ç¬¬ä¸‰å…¬å¼
 C_sum=0;
  for t=1:size(Y1,1)
-    C_sum=C_sum+((Y1(t,:)-Cen(1,:))*(Y1(t,:)-Cen(1,:))'); %1x3¯x°}Âà3x1¯x°}=1x1ªº­È
+    C_sum=C_sum+((Y1(t,:)-Cen(1,:))*(Y1(t,:)-Cen(1,:))'); %1x3çŸ©é™£è½‰3x1çŸ©é™£=1x1çš„å€¼
  end
 C(1)=C_sum/(size(Y1,1)-1);
 %C_one=C_sum/(size(Y1,1)-1);
 
-%ºâ¤¤¤ßÂI
+%ç®—ä¸­å¿ƒé»ž
 i=2;
 Cen(i,1) = sum(Y2(:,1))/size(Y2,1);
 Cen(i,2) = sum(Y2(:,2))/size(Y2,1);
 Cen(i,3) = sum(Y2(:,3))/size(Y2,1);
-%ºâ½è¤¤¤ß¶ZÂ÷²Ä¤T¤½¦¡
+%ç®—è³ªä¸­å¿ƒè·é›¢ç¬¬ä¸‰å…¬å¼
 C_sum=0;
  for t=1:size(Y2,1)
     C_sum=C_sum+((Y2(t,:)-Cen(2,:))*(Y2(t,:)-Cen(2,:))');
@@ -95,12 +101,12 @@ C(2)=C_sum/(size(Y2,1)-1);
 
 
 
-%ºâ¤¤¤ßÂI
+%ç®—ä¸­å¿ƒé»ž
 i=3;
 Cen(i,1) = sum(Y3(:,1))/size(Y3,1);
 Cen(i,2) = sum(Y3(:,2))/size(Y3,1);
 Cen(i,3) = sum(Y3(:,3))/size(Y3,1);
-%ºâ½è¤¤¤ß¶ZÂ÷²Ä¤T¤½¦¡
+%ç®—è³ªä¸­å¿ƒè·é›¢ç¬¬ä¸‰å…¬å¼
 C_sum=0;
  for t=1:size(Y3,1)
     C_sum=C_sum+((Y3(t,:)-Cen(3,:))*(Y3(t,:)-Cen(3,:))');
@@ -121,7 +127,7 @@ clear New_M
 New_M=zeros(1,3);
 
 for i=1:size(Y1,1)
-    M_1 =((Y1(i,:)-Cen(1,:))*inv(C(1)))*(Y1(i,:)-Cen(1,:))';%ºâ¸s¶ZÂ÷
+    M_1 =((Y1(i,:)-Cen(1,:))*inv(C(1)))*(Y1(i,:)-Cen(1,:))';%ç®—ç¾¤è·é›¢
     M_2 =((Y1(i,:)-Cen(2,:))*inv(C(2)))*(Y1(i,:)-Cen(2,:))';
     M_3 =((Y1(i,:)-Cen(3,:))*inv(C(3)))*(Y1(i,:)-Cen(3,:))';
 %     M_1_min=min(M_1);
@@ -201,7 +207,7 @@ Y3=New_Y3;
 iter(Y1_idx) = i;
 iter(Y2_idx) = i;
 iter(Y3_idx) = i;
-disp([num2str(count) '¡G']);
+disp([num2str(count) 'ï¼š']);
 disp(['New_Y1: ' num2str(size(New_Y1,1))]);
 disp(['New_Y2: ' num2str(size(New_Y2,1))]);
 disp(['New_Y3: ' num2str(size(New_Y3,1))]);
@@ -238,16 +244,16 @@ disp(['New_Y3: ' num2str(size(New_Y3,1))]);
 %         count(3) = count(3)+1;
 %     end
 
-%ºâ½è¤¤¤ß¶ZÂ÷²Ä¤T¤½¦¡
+%ç®—è³ªä¸­å¿ƒè·é›¢ç¬¬ä¸‰å…¬å¼
 
-%ºâ¤¤¤ßÂI
+%ç®—ä¸­å¿ƒé»ž
 i=1;
 New_Cen(i,1) = sum(New_Y1(:,1))/size(New_Y1,1);
 New_Cen(i,2) = sum(New_Y1(:,2))/size(New_Y1,1);
 New_Cen(i,3) = sum(New_Y1(:,3))/size(New_Y1,1);
 C_sum=0;
  for t=1:size(New_Y1,1)
-    C_sum=C_sum+((New_Y1(t,:)-New_Cen(1,:))*(New_Y1(t,:)-New_Cen(1,:))'); %1x3¯x°}Âà3x1¯x°}=1x1ªº­È
+    C_sum=C_sum+((New_Y1(t,:)-New_Cen(1,:))*(New_Y1(t,:)-New_Cen(1,:))'); %1x3çŸ©é™£è½‰3x1çŸ©é™£=1x1çš„å€¼
  end
 New_C(1)=C_sum/(size(New_Y1,1)-1);
 
@@ -257,7 +263,7 @@ New_Cen(i,2) = sum(New_Y2(:,2))/size(New_Y2,1);
 New_Cen(i,3) = sum(New_Y2(:,3))/size(New_Y2,1);
 C_sum=0;
  for t=1:size(New_Y2,1)
-    C_sum=C_sum+((New_Y2(t,:)-New_Cen(1,:))*(New_Y2(t,:)-New_Cen(2,:))'); %1x3¯x°}Âà3x1¯x°}=1x1ªº­È
+    C_sum=C_sum+((New_Y2(t,:)-New_Cen(1,:))*(New_Y2(t,:)-New_Cen(2,:))'); %1x3çŸ©é™£è½‰3x1çŸ©é™£=1x1çš„å€¼
  end
 New_C(2)=C_sum/(size(New_Y2,1)-1);
 
@@ -267,31 +273,15 @@ New_Cen(i,2) = sum(New_Y3(:,2))/size(New_Y3,1);
 New_Cen(i,3) = sum(New_Y3(:,3))/size(New_Y3,1);
 C_sum=0;
  for t=1:size(New_Y3,1)
-    C_sum=C_sum+((New_Y3(t,:)-New_Cen(1,:))*(New_Y3(t,:)-New_Cen(3,:))'); %1x3¯x°}Âà3x1¯x°}=1x1ªº­È
+    C_sum=C_sum+((New_Y3(t,:)-New_Cen(1,:))*(New_Y3(t,:)-New_Cen(3,:))'); %1x3çŸ©é™£è½‰3x1çŸ©é™£=1x1çš„å€¼
  end
 New_C(3)=C_sum/(size(New_Y3,1)-1);
 
 
  end;
  
-%  test_img =rgb2ycbcr(imread(dirs));
-%  cross=strrep(dirs,'.jpg','.ppm');
-%  cross_img=imread(cross);
-%      
-%      
-%  figure;
-%  g1=(test_img(:,:,2)<135 & test_img(:,:,2)>75) &( test_img(:,:,3)<180 & test_img(:,:,3)>130) ;%PAPER¤¤ªº²Ä¤@¶¥¬q¡A§Ö³t¿z¿ï
-%  imshow(g1,[]),title('²Ä¤@¶¥¬q¿z¿ï binary pic');
-% disp('end')
-% toc
 
-figure
-scatter3(Y1(:,3),Y1(:,2),Y1(:,1),'y.');hold on;
-scatter3(Cen(1,3),Cen(1,2),Cen(1,1),'bo');hold on;
-scatter3(Y2(:,3),Y2(:,2),Y2(:,1),'g.');hold on;
-scatter3(Cen(2,3),Cen(2,2),Cen(2,1),'bo');hold on;
-scatter3(Y3(:,3),Y3(:,2),Y3(:,1),'r.');hold on;
-scatter3(Cen(3,3),Cen(3,2),Cen(3,1),'bo');hold on;
+
 
 
 figure
