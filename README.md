@@ -19,6 +19,7 @@ Output the skin distribution in YCbCr
 ![Skin distribution in YCbCr](Skin_model.png)
 <br>
 The first group Y1 center
+![Skin distribution in YCbCr](Y1_Center.PNG)
 <br>
 (Y1_Center.png)
 <br>
